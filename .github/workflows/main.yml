@@ -1,8 +1,12 @@
 name: Update EPG
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight
-  workflow_dispatch: # Allows you to run it manually to test
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write  # This is the critical line to add
+
 jobs:
   fetch-epg:
     runs-on: ubuntu-latest
