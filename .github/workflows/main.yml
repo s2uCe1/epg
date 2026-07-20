@@ -1,0 +1,20 @@
+name: Update EPG
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch: # Allows you to run it manually to test
+jobs:
+  fetch-epg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Download EPG
+        run: curl -L "https://www.open-epg.com/generate/Z2NwnT8gmW.xml.gz" -o guide.xml.gz
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add guide.xml.gz
+          git commit -m "Update EPG" || echo "No changes to commit"
+          git push
